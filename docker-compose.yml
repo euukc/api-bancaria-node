@@ -1,0 +1,52 @@
+services:
+  api:
+    build: .
+    container_name: api-bancaria
+    ports: 
+      - "3000:3000"
+    depends_on:
+      - db-financeiro  
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  db-financeiro:
+    image: postgres:15-alpine 
+    container_name: postgres-bancario 
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: banco_digital
+    volumes:
+      - datas_postgre:/var/lib/postgresql/data
+    # Garante que o Docker saiba quando o Postgres terminou de iniciar internamente
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d banco_digital"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  flyway:
+    image: flyway/flyway:10 
+    container_name: flyway-migrations
+    env_file:
+      - .env
+    
+    environment:
+      - FLYWAY_USER=${DB_USER}
+      - FLYWAY_PASSWORD=${DB_PASS}
+    
+    command: -url=jdbc:postgresql://db-financeiro:5432/banco_digital migrate
+    volumes:
+      - ./src/database/migrations:/flyway/sql 
+    depends_on:
+      db-financeiro:
+        condition: service_healthy
+
+volumes:
+  datas_postgre:

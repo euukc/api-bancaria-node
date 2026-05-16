@@ -1,0 +1,19 @@
+
+#Implementar
+Zod (Validação de Inputs): Proteger a API. O Zod garante, por exemplo, que o campo value enviado não seja uma string de texto ou um valor negativo antes mesmo de chegar
+no seu Controller.
+
+Redis (Rate Limiter / Cache): Usado para evitar que um usuário clique 50 vezes seguidas no botão de "Transferir" e gere 50 transferências duplicadas (Idempotência).
+Além do Rate Limiting para evitar ataques.
+
+Logs de Auditoria: Em bancos, existe uma regra: "Se não foi logado, não aconteceu". Usar uma biblioteca como o Winston para
+salvar logs estruturados em arquivos vai te ensinar como sistemas reais são debugados em produção.
+
+Testes Unitários: Funções de transferência são os alvos principais de testes.  - NEST
+Precisa testar cenários como: "O que acontece se o saldo for exatamente igual ao valor da transferência?" ou "O que acontece se o saldo for insuficiente?".
+
+
+Fila de Mensageria (como RabbitMQ ou Kafka) - Em vez de salvar direto no banco, a API joga o depósito na fila e responde 'Recebido' para o usuário. Um serviço em background vai processando essas mensagens no ritmo
+que o banco aguenta, sem derrubar o sistema".
+
+TRADE-OFFS: perdas e ganhos tecnicos
