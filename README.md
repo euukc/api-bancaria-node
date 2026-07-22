@@ -1,40 +1,43 @@
-#  API de Banco Digital
+# Digital Banking API
 
-Uma API de backend robusta desenvolvida em Node.js para simular operações bancárias digitais. Este projeto está sendo desenvolvido com foco total nas melhores práticas de engenharia de software, enfatizando a **orquestração de containers com Docker, migrações de banco de dados, segurança de infraestrutura e testes automatizados**.
+A robust backend API built with Node.js to simulate digital banking operations. This project is developed with a strong focus on software engineering best practices, emphasizing container orchestration with Docker, database migrations, infrastructure security, and automated testing.
 
-O objetivo principal deste repositório é consolidar e demonstrar conhecimentos avançados em infraestrutura de backend, garantindo que a aplicação rode de forma idêntica tanto no ambiente de desenvolvimento local quanto em produção através de uma esteira completa de CI/CD.
+The primary goal of this repository is to solidify and showcase advanced backend infrastructure concepts, ensuring that the application runs identically in both local development and production environments through a complete CI/CD pipeline.
 
----
+# Key Learnings & Achievements
 
-## Principais Aprendizados e Conquistas
+Throughout the development of this project, I implemented and mastered core architectural and DevOps concepts:
 
-Durante o desenvolvimento deste projeto, implementei e dominei conceitos fundamentais de arquitetura e DevOps:
+Docker & Advanced Orchestration: Multi-container setup and integration. Implemented automated healthchecks to prevent race conditions, ensuring the database is fully initialized and healthy before dependent services attempt to connect.
 
-* **Docker e Orquestração Avançada:** Configuração de múltiplos containers integrados. Implementação de `healthchecks` automatizados para evitar condições de corrida (*race conditions*), garantindo que o banco de dados esteja totalmente inicializado e saudável antes que os serviços dependentes tentem se conectar.
-* **Migrações de Banco de Dados (Flyway):** Integração do Flyway para gerenciar a evolução do esquema do banco de dados de forma segura e controlada, eliminando riscos de inconsistência estrutural.
-* **Segurança e Gestão de Ambiente:** Isolamento completo de credenciais sensíveis através de arquivos `.env`, mascarando dados de infraestrutura (`DB_USER`, `DB_PASS`) e garantindo que nenhuma informação confidencial seja exposta no controle de versão (GitHub).
-* **Automação de Testes (CI/CD):** Configuração de uma esteira de **GitHub Actions** que provisiona uma máquina Linux virtual, instala as dependências do ecossistema Node e executa toda a suíte de testes automaticamente a cada `git push`.
-* **Testes de Integração:** Desenvolvimento de testes de integração rigorosos utilizando Jest e Supertest para validar rotas, controllers, regras de negócio e contratos de respostas HTTP.
+Database Migrations (Flyway): Integrated Flyway to manage database schema evolution safely and in a controlled manner, eliminating risks of structural inconsistency.
 
----
+Security & Environment Management: Complete isolation of sensitive credentials using .env files, masking infrastructure data (DB_USER, DB_PASS), and ensuring no confidential information is exposed in version control (GitHub).
 
-## Tecnologias e Ferramentas Utilizadas
+Test Automation (CI/CD): Configured a GitHub Actions pipeline that provisions a virtual Linux machine, installs Node ecosystem dependencies, and executes the full test suite automatically on every git push.
 
-* **Ambiente de Execução:** Node.js com TypeScript
-* **Banco de Dados:** PostgreSQL
-* **Ferramenta de Migração:** Flyway
-* **Conteinerização:** Docker & Docker Compose
-* **Framework de Testes:** Jest & Supertest
-* **Esteira de CI/CD:** GitHub Actions
+Integration Testing: Developed rigorous integration tests using Jest and Supertest to validate routes, controllers, business rules, and HTTP response contracts.
 
----
+# Technologies & Tools
 
-## Arquitetura e Fluxo dos Containers
+Runtime Environment: Node.js with TypeScript
 
-O ecossistema do projeto está estruturado em três serviços principais que cooperam de forma integrada:
+Database: PostgreSQL
 
-1.  **`postgres-bancario`**: O banco de dados relacional core da aplicação, isolado e persistido através de um volume privado do Docker.
-2.  **`flyway-migrations`**: Um container efêmero que aguarda o sinal de saúde do Postgres para injetar e validar os scripts SQL localizados em `./src/database/migrations`.
-3.  **`api-bancaria`**: A aplicação principal em TypeScript rodando na porta `http://localhost:3000`.
+Migration Tool: Flyway
 
+Containerization: Docker & Docker Compose
 
+Testing Framework: Jest & Supertest
+
+CI/CD Pipeline: GitHub Actions
+
+# Architecture & Container Workflow
+
+The project's ecosystem is structured into three main services that interact seamlessly:
+
+postgres-bancario: The core relational database of the application, isolated and persisted through a private Docker volume.
+
+flyway-migrations: An ephemeral container that waits for PostgreSQL's health signal to execute and validate the SQL scripts located at ./src/database/migrations.
+
+api-bancaria: The main TypeScript application running on `http://localhost.com/3000`.
